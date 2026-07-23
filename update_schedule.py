@@ -1,14 +1,11 @@
 import csv
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import os
 import urllib.request
 import zipfile
 
-# URL pública del GTFS oficial de Renfe Cercanías
-RENFE_GTFS_URL = (
-    "https://gtfs.renfe.com/GTFS_CERCANIAS.zip"  # Ajustar a la URL oficial
-)
+RENFE_GTFS_URL = "https://gtfs.renfe.com/GTFS_CERCANIAS.zip"
 OUTPUT_JSON = "cercanias_valencia_schedule.json"
 
 VINAROS_STATION_KEYWORDS = [
@@ -27,16 +24,16 @@ VINAROS_STATION_KEYWORDS = [
 
 
 def download_and_extract_gtfs():
-  """Descarga y descomprime los archivos de Renfe automáticamente."""
-  print("- Descargando último paquete GTFS de Renfe...")
+  """Descarga y descomprime el GTFS oficial de Renfe."""
+  print("- Descargando paquete GTFS de Renfe...")
   zip_path = "gtfs_latest.zip"
   try:
     urllib.request.urlretrieve(RENFE_GTFS_URL, zip_path)
     with zipfile.ZipFile(zip_path, "r") as zip_ref:
       zip_ref.extractall(".")
-    print("  [OK] GTFS descargado y descomprimido correctamente.")
+    print("  [OK] Descarga completada.")
   except Exception as e:
-    print(f"⚠️ No se pudo descargar el GTFS en vivo: {e}. Usando archivos locales si existen.")
+    print(f"⚠️ Error al descargar el GTFS: {e}")
 
 
 def clean_dict_reader(f):
@@ -148,21 +145,42 @@ def clean_coord(val):
 
 
 def process_gtfs():
-  # Obtener fecha dinámica de HOY en formato YYYYMMDD (ej. 20260723)
-  today_str = datetime.now().strftime("%Y%m%d")
-  print(f"- Fecha dinámica actual para filtrado: {today_str}")
+  # 1. CÁLCULO DINÁMICO DE FECHAS (T+1 y T+2)
+  now = datetime.now()
+  day_tomorrow = now + timedelta(days=1)
+  day_after_tomorrow = now + timedelta(days=2)
+
+  start_str = day_tomorrow.strftime("%Y%m%d")
+  end_str = day_after_tomorrow.strftime("%Y%m%d")
+
+  print(f"- Fecha de ejecución: {now.strftime('%Y-%m-%d %H:%M:%S')}")
+  print(
+      f"- Rango a escanear: {start_str} (mañana) hasta {end_str} (pasado"
+      " mañana)"
+  )
 
   download_and_extract_gtfs()
 
+  # 2. FILTRADO DE SERVICIOS EN EL RANGO [T+1, T+2]
   active_services = set()
   if os.path.exists("calendar.txt"):
     with open("calendar.txt", mode="r", encoding="utf-8-sig") as f:
       for row in clean_dict_reader(f):
         s_id = row.get("service_id", "")
-        e_date = row.get("end_date", "") or row.get("start_date", "")
-        if e_date and e_date >= today_str:
-          active_services.add(s_id)
+        s_date = row.get("start_date", "")
+        e_date = row.get("end_date", "") or s_date
 
+        # Conservar el servicio si solapa con el rango [start_str, end_str]
+        if s_date and e_date:
+          if s_date <= end_str and e_date >= start_str:
+            active_services.add(s_id)
+
+  print(
+      f"  [OK] Servicios en vigor para los 2 próximos días:"
+      f" {len(active_services)}"
+  )
+
+  # 3. Mapeo de paradas, líneas y trayectos
   stops_dict = {}
   wheelchair_map = {}
   stops_txt_names = {}
@@ -240,7 +258,9 @@ def process_gtfs():
         t_id = row.get("trip_id", "")
         r_id = row.get("route_id", "")
         s_id = row.get("service_id", "")
-        if r_id in route_map and (not active_services or s_id in active_services):
+        if r_id in route_map and (
+            not active_services or s_id in active_services
+        ):
           trips_info[t_id] = {
               "linea": route_map[r_id],
               "destino": format_station_name(
@@ -313,7 +333,8 @@ def process_gtfs():
     json.dump(final_output, f, ensure_ascii=False, indent=2)
 
   print(
-      f"¡Generación dinámica completada! Estaciones: {len(final_output)}"
+      f"¡Proceso completado! Estaciones procesadas para el rango"
+      f" [{start_str}-{end_str}]: {len(final_output)}"
   )
 
 
