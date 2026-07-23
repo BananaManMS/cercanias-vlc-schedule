@@ -5,6 +5,14 @@ import os
 import urllib.request
 import zipfile
 
+# Intentar usar la zona horaria de España para evaluar la hora local real
+try:
+  from zoneinfo import ZoneInfo
+
+  SPAIN_TZ = ZoneInfo("Europe/Madrid")
+except Exception:
+  SPAIN_TZ = None
+
 # URL Oficial del GTFS de Renfe Cercanías
 RENFE_GTFS_URL = (
     "https://ssl.renfe.com/ftransit/Fichero_CER_FOMENTO/fomento_transit.zip"
@@ -161,23 +169,31 @@ def clean_coord(val):
 
 
 def process_gtfs():
-  # 1. CÁLCULO DINÁMICO DE FECHAS (T+1 y T+2)
-  now = datetime.now()
-  day_tomorrow = now + timedelta(days=1)
-  day_after_tomorrow = now + timedelta(days=2)
+  # Obtener fecha y hora en zona horaria española
+  now = datetime.now(SPAIN_TZ) if SPAIN_TZ else datetime.now()
 
-  start_str = day_tomorrow.strftime("%Y%m%d")
-  end_str = day_after_tomorrow.strftime("%Y%m%d")
+  # LÓGICA DINÁMICA DE HORA:
+  # Si es antes de las 23:00 -> HOY (T) y MAÑANA (T+1)
+  # Si es a partir de las 23:00 -> MAÑANA (T+1) y PASADO MAÑANA (T+2)
+  if now.hour < 23:
+    day_start = now
+    day_end = now + timedelta(days=1)
+    modo_desc = "Antes de las 23:00 -> Escaneando HOY y MAÑANA"
+  else:
+    day_start = now + timedelta(days=1)
+    day_end = now + timedelta(days=2)
+    modo_desc = "A partir de las 23:00 -> Escaneando MAÑANA y PASADO MAÑANA"
 
-  print(f"- Fecha de ejecución: {now.strftime('%Y-%m-%d %H:%M:%S')}")
-  print(
-      f"- Rango a escanear: {start_str} (mañana) hasta {end_str} (pasado"
-      " mañana)"
-  )
+  start_str = day_start.strftime("%Y%m%d")
+  end_str = day_end.strftime("%Y%m%d")
+
+  print(f"- Hora de ejecución detectada: {now.strftime('%Y-%m-%d %H:%M:%S')}")
+  print(f"- {modo_desc}")
+  print(f"- Rango seleccionado: [{start_str} - {end_str}]")
 
   download_and_extract_gtfs()
 
-  # 2. FILTRADO DE SERVICIOS EN EL RANGO [T+1, T+2]
+  # FILTRADO DE SERVICIOS EN EL RANGO DINÁMICO
   active_services = set()
   if os.path.exists("calendar.txt"):
     with open("calendar.txt", mode="r", encoding="utf-8-sig") as f:
@@ -191,11 +207,11 @@ def process_gtfs():
             active_services.add(s_id)
 
   print(
-      f"  [OK] Servicios en vigor para los 2 próximos días:"
+      f"  [OK] Servicios en vigor para el rango [{start_str}-{end_str}]:"
       f" {len(active_services)}"
   )
 
-  # 3. MAPEO DE PARADAS, LÍNEAS Y TRAYECTOS
+  # MAPEO DE PARADAS, LÍNEAS Y TRAYECTOS
   stops_dict = {}
   wheelchair_map = {}
   stops_txt_names = {}
