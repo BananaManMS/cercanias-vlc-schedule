@@ -5,7 +5,10 @@ import os
 import urllib.request
 import zipfile
 
-RENFE_GTFS_URL = "https://gtfs.renfe.com/GTFS_CERCANIAS.zip"
+# URL Oficial del GTFS de Renfe Cercanías
+RENFE_GTFS_URL = (
+    "https://ssl.renfe.com/ftransit/Fichero_CER_FOMENTO/fomento_transit.zip"
+)
 OUTPUT_JSON = "cercanias_valencia_schedule.json"
 
 VINAROS_STATION_KEYWORDS = [
@@ -24,14 +27,27 @@ VINAROS_STATION_KEYWORDS = [
 
 
 def download_and_extract_gtfs():
-  """Descarga y descomprime el GTFS oficial de Renfe."""
-  print("- Descargando paquete GTFS de Renfe...")
+  """Descarga y descomprime el paquete GTFS oficial de Renfe."""
+  print(f"- Descargando paquete GTFS desde {RENFE_GTFS_URL}...")
   zip_path = "gtfs_latest.zip"
   try:
-    urllib.request.urlretrieve(RENFE_GTFS_URL, zip_path)
+    req = urllib.request.Request(
+        RENFE_GTFS_URL,
+        headers={
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+            )
+        },
+    )
+    with (
+        urllib.request.urlopen(req) as response,
+        open(zip_path, "wb") as out_file,
+    ):
+      out_file.write(response.read())
+
     with zipfile.ZipFile(zip_path, "r") as zip_ref:
       zip_ref.extractall(".")
-    print("  [OK] Descarga completada.")
+    print("  [OK] Descarga y descompresión completadas.")
   except Exception as e:
     print(f"⚠️ Error al descargar el GTFS: {e}")
 
@@ -170,7 +186,6 @@ def process_gtfs():
         s_date = row.get("start_date", "")
         e_date = row.get("end_date", "") or s_date
 
-        # Conservar el servicio si solapa con el rango [start_str, end_str]
         if s_date and e_date:
           if s_date <= end_str and e_date >= start_str:
             active_services.add(s_id)
@@ -180,7 +195,7 @@ def process_gtfs():
       f" {len(active_services)}"
   )
 
-  # 3. Mapeo de paradas, líneas y trayectos
+  # 3. MAPEO DE PARADAS, LÍNEAS Y TRAYECTOS
   stops_dict = {}
   wheelchair_map = {}
   stops_txt_names = {}
