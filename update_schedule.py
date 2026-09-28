@@ -19,6 +19,7 @@ RENFE_GTFS_URL = (
 )
 OUTPUT_JSON = "cercanias_valencia_schedule.json"
 
+# Estaciones de la prolongación norte (Castelló - Vinaròs)
 VINAROS_STATION_KEYWORDS = [
     "benicàssim",
     "benicasim",
@@ -31,6 +32,30 @@ VINAROS_STATION_KEYWORDS = [
     "benicarlo",
     "vinaròs",
     "vinaros",
+]
+
+# Estaciones del ramal sur Xàtiva - Alcoi (Línea 340 / C2)
+ALCOI_STATION_KEYWORDS = [
+    "genovés",
+    "genoves",
+    "el genovés",
+    "el genoves",
+    "benigànim",
+    "beniganim",
+    "la pobla del duc",
+    "pobla del duc",
+    "montaberner",
+    "montaverner",
+    "bufalí",
+    "bufali",
+    "albaida",
+    "agullent",
+    "ontinyent",
+    "onteniente",
+    "agres",
+    "cocentaina",
+    "alcoi",
+    "alcoy",
 ]
 
 
@@ -73,8 +98,12 @@ def format_station_name(name):
   if not name:
     return ""
   EXACT_FIXES = {
+      # Núcleo general y Vinaròs
       "valencia nord": "València Nord",
       "valencia-nord": "València Nord",
+      "valencia estacio del nord": "València Nord",
+      "valencia-estacio del nord": "València Nord",
+      "valència estació del nord": "València Nord",
       "valencia sant isidre": "València Sant Isidre",
       "valencia cabanyal": "València-Cabanyal",
       "valencia-cabanyal": "València-Cabanyal",
@@ -96,6 +125,29 @@ def format_station_name(name):
       "xirivella l'alter": "Xirivella-L'Alter",
       "alfafar-benetusser": "Alfafar-Benetússer",
       "alfafar-benetússer": "Alfafar-Benetússer",
+      # Ramal Xàtiva - Alcoi
+      "genoves": "El Genovés",
+      "genovés": "El Genovés",
+      "el genoves": "El Genovés",
+      "el genovés": "El Genovés",
+      "beniganim": "Benigànim",
+      "benigànim": "Benigànim",
+      "la pobla del duc": "La Pobla del Duc",
+      "pobla del duc": "La Pobla del Duc",
+      "montaberner": "Montaverner",
+      "montaverner": "Montaverner",
+      "bufali": "Bufali",
+      "bufalí": "Bufali",
+      "albaida": "Albaida",
+      "agullent": "Agullent",
+      "ontinyent": "Ontinyent",
+      "onteniente": "Ontinyent",
+      "agres": "Agres",
+      "cocentaina": "Cocentaina",
+      "alcoi": "Alcoi",
+      "alcoy": "Alcoi",
+      "alcoi (alcoy)": "Alcoi",
+      "alcoy (alcoi)": "Alcoi",
   }
   clean_lower = name.strip().lower()
   if clean_lower in EXACT_FIXES:
@@ -193,7 +245,7 @@ def process_gtfs():
 
   download_and_extract_gtfs()
 
-  # FILTRADO DE SERVICIOS EN EL RANGO DINÁMICO
+  # FILTRADO DE SERVICIOS EN EL RANGO DINÁMICO (calendar.txt y calendar_dates.txt)
   active_services = set()
   if os.path.exists("calendar.txt"):
     with open("calendar.txt", mode="r", encoding="utf-8-sig") as f:
@@ -205,6 +257,16 @@ def process_gtfs():
         if s_date and e_date:
           if s_date <= end_str and e_date >= start_str:
             active_services.add(s_id)
+
+  if os.path.exists("calendar_dates.txt"):
+    with open("calendar_dates.txt", mode="r", encoding="utf-8-sig") as f:
+      for row in clean_dict_reader(f):
+        s_id = row.get("service_id", "")
+        c_date = row.get("date", "")
+        exc_type = row.get("exception_type", "")
+        # exception_type == 1 indica servicio añadido en esa fecha
+        if start_str <= c_date <= end_str and exc_type == "1":
+          active_services.add(s_id)
 
   print(
       f"  [OK] Servicios en vigor para el rango [{start_str}-{end_str}]:"
@@ -225,6 +287,7 @@ def process_gtfs():
           wheelchair_map[s_id] = row.get("wheelchair_boarding", "0") == "1"
           stops_txt_names[s_id] = format_station_name(raw_name)
 
+  # 1. Cargar estaciones base de Valencia si existe el archivo CSV
   if os.path.exists("estaciones_cercanias_valencia.csv"):
     with open(
         "estaciones_cercanias_valencia.csv", mode="r", encoding="latin-1"
@@ -245,12 +308,23 @@ def process_gtfs():
               "wheelchair_accessible": wheelchair_map.get(s_id, False),
           }
 
+  # 2. Cargar paradas de Vinaròs y del ramal de Alcoi directamente desde stops.txt
   if os.path.exists("stops.txt"):
     with open("stops.txt", mode="r", encoding="utf-8-sig") as f:
       for row in clean_dict_reader(f):
         s_id = row.get("stop_id", "")
         raw_name = row.get("stop_name", "")
-        if any(kw in raw_name.lower() for kw in VINAROS_STATION_KEYWORDS):
+        name_lower = raw_name.lower()
+
+        # Coincidencia para Vinaròs
+        is_vinaros = any(kw in name_lower for kw in VINAROS_STATION_KEYWORDS)
+
+        # Coincidencia para Alcoi: por nombre o por rango Adif (69001 - 69011)
+        is_alcoi = any(kw in name_lower for kw in ALCOI_STATION_KEYWORDS) or (
+            s_id.isdigit() and 69001 <= int(s_id) <= 69011
+        )
+
+        if is_vinaros or is_alcoi:
           if s_id not in stops_dict:
             stops_dict[s_id] = {
                 "stop_id": s_id,
@@ -260,14 +334,19 @@ def process_gtfs():
                 "wheelchair_accessible": wheelchair_map.get(s_id, False),
             }
 
+  # MAPEO DE RUTAS
   route_map = {}
   if os.path.exists("routes.txt"):
     with open("routes.txt", mode="r", encoding="utf-8-sig") as f:
       for row in clean_dict_reader(f):
         r_id = row.get("route_id", "")
-        r_short = row.get("route_short_name", "").upper()
+        r_short = row.get("route_short_name", "").upper().strip()
+        r_long = row.get("route_long_name", "").upper().strip()
+
+        # Línea C6 y ER02 (Vinaròs)
         if r_short in {"ER02", "ER-02", "C6", "C-6"}:
           route_map[r_id] = "C6"
+        # Líneas C1 a C5 estándar
         elif r_short in {
             "C1",
             "C2",
@@ -281,9 +360,31 @@ def process_gtfs():
             "C-5",
         }:
           route_map[r_id] = r_short.replace("-", "")
+        # Ramal de Alcoi (identificado en Renfe como C2, ER01, 47 o con nombre de trayecto)
+        elif (
+            "ALCOI" in r_short
+            or "ALCOY" in r_short
+            or "ALCOI" in r_long
+            or "ALCOY" in r_long
+            or r_short in {"ER01", "ER-01", "47", "R47", "R-47"}
+        ):
+          route_map[r_id] = "C2"
 
+  # DETECCIÓN DINÁMICA DE TRAYECTOS (trips.txt)
+  # Si un servicio no catalogado en routes.txt tiene cabecera a Alcoi, se vincula a la C2
   trips_info = {}
   if os.path.exists("trips.txt"):
+    # Pase preliminar para capturar posibles IDs de ruta con destino Alcoi
+    with open("trips.txt", mode="r", encoding="utf-8-sig") as f:
+      for row in clean_dict_reader(f):
+        r_id = row.get("route_id", "")
+        headsign_upper = row.get("trip_headsign", "").upper()
+        if r_id not in route_map and any(
+            kw in headsign_upper for kw in ["ALCOI", "ALCOY"]
+        ):
+          route_map[r_id] = "C2"
+
+    # Construcción de viajes en servicio
     with open("trips.txt", mode="r", encoding="utf-8-sig") as f:
       for row in clean_dict_reader(f):
         t_id = row.get("trip_id", "")
@@ -301,6 +402,7 @@ def process_gtfs():
               "max_seq": -1,
           }
 
+  # EXTRACCIÓN DE HORARIOS POR ESTACIÓN (stop_times.txt)
   station_arrivals = []
   if os.path.exists("stop_times.txt"):
     with open("stop_times.txt", mode="r", encoding="utf-8-sig") as f:
@@ -319,13 +421,16 @@ def process_gtfs():
             if arr_time:
               station_arrivals.append((s_id, t_id, arr_time))
 
+  # Resolver destinos vacíos utilizando la última parada del trayecto
   for t_id, meta in trips_info.items():
     if not meta["destino"] and meta["last_stop_id"]:
       last_id = meta["last_stop_id"]
-      meta["destino"] = stops_dict.get(
-          last_id, {}
-      ).get("nombre") or stops_txt_names.get(last_id, "")
+      meta["destino"] = (
+          stops_dict.get(last_id, {}).get("nombre")
+          or stops_txt_names.get(last_id, "")
+      )
 
+  # Agrupar llegadas por estación
   station_horarios = {}
   for s_id, t_id, arr_time in station_arrivals:
     if s_id not in station_horarios:
@@ -336,6 +441,7 @@ def process_gtfs():
       station_horarios[s_id][key] = []
     station_horarios[s_id][key].append(t_id)
 
+  # Generar estructura JSON final
   final_output = []
   for s_id, s_data in stops_dict.items():
     if s_id in station_horarios:
