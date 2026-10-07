@@ -1,5 +1,738 @@
 [
   {
+    "stop_id": "64210",
+    "nombre": "Albal",
+    "lat": 39.392014,
+    "lon": -0.40246,
+    "wheelchair_accessible": true,
+    "lineas": [
+      "C1",
+      "C2"
+    ],
+    "horarios": [
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "06:22:00",
+        "trip_ids": [
+          "4078X24000C2",
+          "4079J24000C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "06:25:00",
+        "trip_ids": [
+          "4078X24003C2",
+          "4079J24003C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "06:47:00",
+        "trip_ids": [
+          "4078X24002C2",
+          "4079J24002C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "07:15:00",
+        "trip_ids": [
+          "4078X24283C1",
+          "4079J24283C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "07:17:00",
+        "trip_ids": [
+          "4078X24004C2",
+          "4079J24004C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "València Nord",
+        "llegada": "07:23:00",
+        "trip_ids": [
+          "4078X24204C1",
+          "4079J24204C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "07:45:00",
+        "trip_ids": [
+          "4078X24011C2",
+          "4079J24011C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "07:45:00",
+        "trip_ids": [
+          "4078X24006C2",
+          "4079J24006C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "08:06:00",
+        "trip_ids": [
+          "4078X24211C1",
+          "4079J24211C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "08:15:00",
+        "trip_ids": [
+          "4078X24015C2",
+          "4079J24015C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "València Nord",
+        "llegada": "08:33:00",
+        "trip_ids": [
+          "4078X24208C1",
+          "4079J24208C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "08:45:00",
+        "trip_ids": [
+          "4078X24016C2",
+          "4079J24016C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "08:45:00",
+        "trip_ids": [
+          "4078X24019C2",
+          "4079J24019C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "09:06:00",
+        "trip_ids": [
+          "4078X24215C1",
+          "4079J24215C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "09:15:00",
+        "trip_ids": [
+          "4078X24023C2",
+          "4079J24023C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "València Nord",
+        "llegada": "09:21:00",
+        "trip_ids": [
+          "4078X24280C1",
+          "4079J24280C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "09:47:00",
+        "trip_ids": [
+          "4078X24024C2",
+          "4079J24024C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "València Nord",
+        "llegada": "10:03:00",
+        "trip_ids": [
+          "4078X24216C1",
+          "4079J24216C1"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "10:06:00",
+        "trip_ids": [
+          "4078X24219C1",
+          "4079J24219C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "10:15:00",
+        "trip_ids": [
+          "4078X24026C2",
+          "4079J24026C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "10:45:00",
+        "trip_ids": [
+          "4078X24028C2",
+          "4079J24028C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "10:50:00",
+        "trip_ids": [
+          "4078X24031C2",
+          "4079J24031C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Civis",
+        "llegada": "11:03:00",
+        "trip_ids": [
+          "4078X24222C1",
+          "4079J24222C1"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "11:06:00",
+        "trip_ids": [
+          "4078X24223C1",
+          "4079J24223C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "11:15:00",
+        "trip_ids": [
+          "4078X24033C2",
+          "4079J24033C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "11:47:00",
+        "trip_ids": [
+          "4078X24032C2",
+          "4079J24032C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "València Nord",
+        "llegada": "12:03:00",
+        "trip_ids": [
+          "4078X24226C1",
+          "4079J24226C1"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "12:06:00",
+        "trip_ids": [
+          "4078X24227C1",
+          "4079J24227C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "12:15:00",
+        "trip_ids": [
+          "4078X24037C2",
+          "4079J24037C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "12:45:00",
+        "trip_ids": [
+          "4078X24036C2",
+          "4079J24036C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "12:45:00",
+        "trip_ids": [
+          "4078X24039C2",
+          "4079J24039C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "València Nord",
+        "llegada": "13:03:00",
+        "trip_ids": [
+          "4078X24230C1",
+          "4079J24230C1"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "13:06:00",
+        "trip_ids": [
+          "4078X24231C1",
+          "4079J24231C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "13:15:00",
+        "trip_ids": [
+          "4078X24041C2",
+          "4079J24041C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "13:17:00",
+        "trip_ids": [
+          "4078X24038C2",
+          "4079J24038C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "13:47:00",
+        "trip_ids": [
+          "4078X24043C2",
+          "4079J24043C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "14:00:00",
+        "trip_ids": [
+          "4078X24235C1",
+          "4079J24235C1"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "València Nord",
+        "llegada": "14:03:00",
+        "trip_ids": [
+          "4078X24234C1",
+          "4079J24234C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "14:15:00",
+        "trip_ids": [
+          "4078X24042C2",
+          "4079J24042C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "14:42:00",
+        "trip_ids": [
+          "4078X24044C2",
+          "4079J24044C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "14:48:00",
+        "trip_ids": [
+          "4078X36439C1",
+          "4079J36439C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "14:53:00",
+        "trip_ids": [
+          "4078X24051C2",
+          "4079J24051C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "València Nord",
+        "llegada": "15:03:00",
+        "trip_ids": [
+          "4078X24238C1",
+          "4079J24238C1"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "15:09:00",
+        "trip_ids": [
+          "4078X24241C1",
+          "4079J24241C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "15:17:00",
+        "trip_ids": [
+          "4078X24048C2",
+          "4079J24048C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "15:50:00",
+        "trip_ids": [
+          "4078X24059C2",
+          "4079J24059C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "15:51:00",
+        "trip_ids": [
+          "4078X24054C2",
+          "4079J24054C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "16:00:00",
+        "trip_ids": [
+          "4078X24249C1",
+          "4079J24249C1"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "València Nord",
+        "llegada": "16:03:00",
+        "trip_ids": [
+          "4078X24242C1",
+          "4079J24242C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "16:15:00",
+        "trip_ids": [
+          "4078X24061C2",
+          "4079J24061C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "16:22:00",
+        "trip_ids": [
+          "4078X24056C2",
+          "4079J24056C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "16:47:00",
+        "trip_ids": [
+          "4078X24060C2",
+          "4079J24060C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "16:48:00",
+        "trip_ids": [
+          "4078X24067C2",
+          "4079J24067C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "17:08:00",
+        "trip_ids": [
+          "4078X24253C1",
+          "4079J24253C1"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "València Nord",
+        "llegada": "17:14:00",
+        "trip_ids": [
+          "4078X24246C1",
+          "4079J24246C1"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "18:00:00",
+        "trip_ids": [
+          "4078X24257C1",
+          "4079J24257C1"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "València Nord",
+        "llegada": "18:03:00",
+        "trip_ids": [
+          "4078X24250C1",
+          "4079J24250C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "18:05:00",
+        "trip_ids": [
+          "4078X24073C2",
+          "4079J24073C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "18:15:00",
+        "trip_ids": [
+          "4078X24068C2",
+          "4079J24068C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "18:47:00",
+        "trip_ids": [
+          "4078X24066C2",
+          "4079J24066C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "19:00:00",
+        "trip_ids": [
+          "4078X24077C2",
+          "4079J24077C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "València Nord",
+        "llegada": "19:03:00",
+        "trip_ids": [
+          "4078X24254C1",
+          "4079J24254C1"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "19:06:00",
+        "trip_ids": [
+          "4078X24263C1",
+          "4079J24263C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "19:30:00",
+        "trip_ids": [
+          "4078X24072C2",
+          "4079J24072C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "19:45:00",
+        "trip_ids": [
+          "4078X24083C2",
+          "4079J24083C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "València Nord",
+        "llegada": "20:02:00",
+        "trip_ids": [
+          "4078X24258C1",
+          "4079J24258C1"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "20:06:00",
+        "trip_ids": [
+          "4078X24269C1",
+          "4079J24269C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "20:15:00",
+        "trip_ids": [
+          "4078X24080C2",
+          "4079J24080C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "20:43:00",
+        "trip_ids": [
+          "4078X24091C2",
+          "4079J24091C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "21:01:00",
+        "trip_ids": [
+          "4078X24086C2",
+          "4079J24086C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "València Nord",
+        "llegada": "21:02:00",
+        "trip_ids": [
+          "4078X24262C1",
+          "4079J24262C1"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "21:06:00",
+        "trip_ids": [
+          "4078X24273C1",
+          "4079J24273C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "21:35:00",
+        "trip_ids": [
+          "4078X24095C2",
+          "4079J24095C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "21:45:00",
+        "trip_ids": [
+          "4078X24088C2",
+          "4079J24088C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "22:00:00",
+        "trip_ids": [
+          "4078X24277C1",
+          "4079J24277C1"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "València Nord",
+        "llegada": "22:03:00",
+        "trip_ids": [
+          "4078X24266C1",
+          "4079J24266C1"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "l'Alcudia",
+        "llegada": "22:25:00",
+        "trip_ids": [
+          "4078X24097C2",
+          "4079J24097C2"
+        ]
+      },
+      {
+        "linea": "C2",
+        "destino": "València Nord",
+        "llegada": "22:51:00",
+        "trip_ids": [
+          "4078X24094C2",
+          "4079J24094C2"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "Gandia",
+        "llegada": "22:55:00",
+        "trip_ids": [
+          "4078X24281C1",
+          "4079J24281C1"
+        ]
+      },
+      {
+        "linea": "C1",
+        "destino": "València Nord",
+        "llegada": "23:20:00",
+        "trip_ids": [
+          "4078X24270C1",
+          "4079J24270C1"
+        ]
+      }
+    ]
+  },
+  {
     "stop_id": "65005",
     "nombre": "Albuixech",
     "lat": 39.544137,
